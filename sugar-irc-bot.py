@@ -19,7 +19,7 @@
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
 
-from msg_scan import scan_msg
+from msg_scan import scan_msg, they_know_now, they_dont_know
 
 HELP_TXT = """Hello World"""
 
@@ -40,18 +40,28 @@ class SugarIRCBOT(irc.IRCClient):
         pass
 
     def privmsg(self, user, channel, msg):
+        addressed = False
         if msg.startswith(self.nickname):
             msg = msg[len(self.nickname)+1:]
+            addressed = True
         msg.strip()
         msg = msg.lower()
 
         nice_user = user.split('!~')[0]
 
-        if 'ping' in msg:
+        if 'ping' in msg and addressed:
            self.msg(channel, nice_user+': PONG')
 
         if scan_msg(msg, nice_user):
             self.msg(channel, nice_user+': '+HELP_TXT)
+
+        if '!i know' in msg and addressed:
+            they_know_now(nice_user)
+            self.msg(channel, '/me now counts %s as smart' % nice_user)
+
+        if '!spam me' in msg and addressed:
+            they_dont_know(nice_user)
+            self.msg(channel, nice_user+": you will now be help spammed")
 
 class BotFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):

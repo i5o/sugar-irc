@@ -57,3 +57,17 @@ def scan_msg(msg, user):
     for i in help_signs:
         if get_help_sign_score(msg, i) > MIN_SCORE:
             return True
+
+def _save_they_know():
+    with open('they_know.txt', 'w') as f:
+        f.write(','.join(they_know))
+
+def they_know_now(nick):
+    nick = nick.lower()
+    they_know.append(nick)
+    _save_they_know()
+
+def they_dont_know(nick):
+    nick = nick.lower()
+    they_know.remove(nick)
+    _save_they_know()
