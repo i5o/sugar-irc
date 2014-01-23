@@ -37,6 +37,7 @@ class SugarIRCBOT(irc.IRCClient):
         pass
 
     def privmsg(self, user, channel, msg):
+        # How to send msg: self.msg(channel, 'The new cool msg')
         pass
 
 
@@ -57,5 +58,3 @@ if __name__ == '__main__':
     f = BotFactory()
     reactor.connectTCP("irc.freenode.net", 6667, f)
     reactor.run()
-
-
