@@ -47,7 +47,7 @@ class SugarIRCBOT(irc.IRCClient):
         msg.strip()
         msg = msg.lower()
 
-        nice_user = user.split('!~')[0]
+        nice_user = user.split('!')[0]
 
         if 'ping' in msg and addressed:
            self.msg(channel, nice_user+': PONG')
