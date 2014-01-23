@@ -40,6 +40,7 @@ class SugarIRCBOT(irc.IRCClient):
         pass
 
     def privmsg(self, user, channel, msg):
+        # How to send msg: self.msg(channel, 'The new cool msg')
         if msg.startswith(self.nickname):
             msg = msg[len(self.nickname)+1:]
         msg.strip()
