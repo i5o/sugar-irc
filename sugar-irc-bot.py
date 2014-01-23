@@ -80,6 +80,9 @@ class SugarIRCBOT(irc.IRCClient):
            self.msg(channel, nice_user+': PONG')
            return
 
+        if 'freetime' in msg and addressed:
+            self.msg(channel, "gcibot, I love you. We should go out some time")
+
 class BotFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):
         p = SugarIRCBOT()
