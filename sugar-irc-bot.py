@@ -72,7 +72,7 @@ class SugarIRCBOT(irc.IRCClient):
             self.msg(channel, nice_user+BOT_HELP_TXT)
             return
 
-        if 'info' in msg and addressed:
+        if ('info' in msg or 'hi' in msg) and addressed:
             self.msg(channel, nice_user+BOT_INFO_TXT)
             return
 
@@ -82,6 +82,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         if 'freetime' in msg and addressed:
             self.msg(channel, "gcibot, I love you. We should go out some time")
+            return
 
 class BotFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):
