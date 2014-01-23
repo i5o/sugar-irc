@@ -21,7 +21,8 @@ from twisted.words.protocols import irc
 
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
-HELP_TXT = """Hello World"""
+HELP_TXT = ": Hi! Why don't you check out this: " + "https://github.com/ignaciouy/sugar-irc/wiki/Resources-for-New-Devs"
+BOT_INFO_TXT = ": Hi! I'm a bot by Ignacio and SAMdroid that's here to help. " + "You can find my code here: https://github.com/ignaciouy/sugar-irc"
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
@@ -52,8 +53,11 @@ class SugarIRCBOT(irc.IRCClient):
         if 'ping' in msg and addressed:
            self.msg(channel, nice_user+': PONG')
 
+        if 'info' in msg and addressed:
+            self.msg(channel, nice_user+BOT_INFO_TXT)
+
         if scan_msg(msg, nice_user):
-            self.msg(channel, nice_user+': '+HELP_TXT)
+            self.msg(channel, nice_user+HELP_TXT)
 
         if '!i know' in msg and addressed:
             they_know_now(nice_user)

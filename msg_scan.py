@@ -25,7 +25,8 @@ if os.path.isfile('they_know.txt'):
 
 help_signs = [
     ("i'm", 'new'),
-    ('i', ('want', 'would'), 'to', ('help', 'contribute'))
+    ('i', ('want', 'would'), 'to', ('help', 'contribute')),
+    ("i'd", 'like', 'to', ('help', 'contribute'))
 ]
 
 MIN_SCORE = 0.8
