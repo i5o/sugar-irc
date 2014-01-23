@@ -65,10 +65,12 @@ def _save_they_know():
 
 def they_know_now(nick):
     nick = nick.lower()
-    they_know.append(nick)
-    _save_they_know()
+    if not nick in they_know:
+        they_know.append(nick)
+        _save_they_know()
 
 def they_dont_know(nick):
     nick = nick.lower()
-    they_know.remove(nick)
-    _save_they_know()
+    if nick in they_know:
+        they_know.remove(nick)
+        _save_they_know()

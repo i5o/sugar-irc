@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #    IRC Bot for help users in #sugar channels (Freenode)
 #    Copyright (C) 2014, Ignacio Rodríguez <ignacio@sugarlabs.org>
+#                        Sam Parkinson     <sam.parkinson3@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,8 +22,12 @@ from twisted.words.protocols import irc
 
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
-HELP_TXT = ": Hi! Why don't you check out this: " + "https://github.com/ignaciouy/sugar-irc/wiki/Resources-for-New-Devs"
-BOT_INFO_TXT = ": Hi! I'm a bot by Ignacio and SAMdroid that's here to help. " + "You can find my code here: https://github.com/ignaciouy/sugar-irc"
+HELP_TXT = ": Hi! Why don't you check out this: " + \
+        "https://github.com/ignaciouy/sugar-irc/wiki/Resources-for-New-Devs"
+BOT_INFO_TXT = ": Hi! I'm a bot by Ignacio and SAMdroid that's here to help. "+\
+        "You can find my code here: https://github.com/ignaciouy/sugar-irc"
+BOT_HELP_TXT = ": Help is on my wiki: " + \
+        "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
@@ -50,22 +55,30 @@ class SugarIRCBOT(irc.IRCClient):
 
         nice_user = user.split('!')[0]
 
-        if 'ping' in msg and addressed:
-           self.msg(channel, nice_user+': PONG')
-
-        if 'info' in msg and addressed:
-            self.msg(channel, nice_user+BOT_INFO_TXT)
-
         if scan_msg(msg, nice_user):
             self.msg(channel, nice_user+HELP_TXT)
 
-        if '!i know' in msg and addressed:
+        if ('i know' in msg or 'no spam for me' in msg) and addressed:
             they_know_now(nice_user)
-            self.msg(channel, '/me now counts %s as smart' % nice_user)
+            self.msg(channel, 'I now count %s as smart' % nice_user)
+            return
 
-        if '!spam me' in msg and addressed:
+        if 'spam me' in msg and addressed:
             they_dont_know(nice_user)
             self.msg(channel, nice_user+": you will now be help spammed")
+            return
+
+        if 'help' in msg and addressed:
+            self.msg(channel, nice_user+BOT_HELP_TXT)
+            return
+
+        if 'info' in msg and addressed:
+            self.msg(channel, nice_user+BOT_INFO_TXT)
+            return
+
+        if 'ping' in msg and addressed:
+           self.msg(channel, nice_user+': PONG')
+           return
 
 class BotFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):
