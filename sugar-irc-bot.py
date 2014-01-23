@@ -22,12 +22,18 @@ from twisted.words.protocols import irc
 
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
-HELP_TXT = ": Hi! Why don't you check out this: " + \
+AUTHORS = "SAMDroid and Ignacio"
+
+HELP_TXT = "Hi! Why don't you check out this: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/Resources-for-New-Devs"
-BOT_INFO_TXT = ": Hi! I'm a bot by Ignacio and SAMdroid that's here to help. "+\
+BOT_INFO_TXT = "Hi! I'm a bot by {authors} that's here to help. " + \
         "You can find my code here: https://github.com/ignaciouy/sugar-irc"
+# Just for pep8
+BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
+
 BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
+
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
@@ -43,20 +49,22 @@ class SugarIRCBOT(irc.IRCClient):
         self.join("sugar")
 
     def joined(self, channel):
-        pass
+        self.msg(channel, BOT_INFO_TXT)
 
     def privmsg(self, user, channel, msg):
         addressed = False
+
         if msg.startswith(self.nickname):
-            msg = msg[len(self.nickname)+1:]
+            msg = msg[len(self.nickname) + 1:]
             addressed = True
+
         msg.strip()
         msg = msg.lower()
 
         nice_user = user.split('!')[0]
 
         if scan_msg(msg, nice_user):
-            self.msg(channel, nice_user+HELP_TXT)
+            self.msg(channel, nice_user + HELP_TXT)
 
         if ('i know' in msg or 'no spam for me' in msg) and addressed:
             they_know_now(nice_user)
@@ -65,24 +73,25 @@ class SugarIRCBOT(irc.IRCClient):
 
         if 'spam me' in msg and addressed:
             they_dont_know(nice_user)
-            self.msg(channel, nice_user+": you will now be help spammed")
+            self.msg(channel, nice_user + ": you will now be help spammed")
             return
 
         if 'help' in msg and addressed:
-            self.msg(channel, nice_user+BOT_HELP_TXT)
+            self.msg(channel, nice_user + BOT_HELP_TXT)
             return
 
         if ('info' in msg or 'hi' in msg) and addressed:
-            self.msg(channel, nice_user+BOT_INFO_TXT)
+            self.msg(channel, nice_user + ": " + BOT_INFO_TXT)
             return
 
         if 'ping' in msg and addressed:
-           self.msg(channel, nice_user+': PONG')
-           return
+            self.msg(channel, nice_user + ': pong')
+            return
 
         if 'freetime' in msg and addressed:
             self.msg(channel, "gcibot, I love you. We should go out some time")
             return
+
 
 class BotFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):

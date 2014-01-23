@@ -35,6 +35,7 @@ help_signs = [
 
 MIN_SCORE = 0.8
 
+
 def get_help_sign_score(msg, sign):
     """
     Returns how sure the bot is that a the given sign is in the msg
@@ -50,7 +51,8 @@ def get_help_sign_score(msg, sign):
                 if x in msg:
                     score += 1
                     break
-    return float(score)/len(sign)
+    return float(score) / len(sign)
+
 
 def scan_msg(msg, user):
     """
@@ -63,15 +65,18 @@ def scan_msg(msg, user):
         if get_help_sign_score(msg, i) > MIN_SCORE:
             return True
 
+
 def _save_they_know():
     with open('they_know.txt', 'w') as f:
         f.write(','.join(they_know))
+
 
 def they_know_now(nick):
     nick = nick.lower()
     if not nick in they_know:
         they_know.append(nick)
         _save_they_know()
+
 
 def they_dont_know(nick):
     nick = nick.lower()
