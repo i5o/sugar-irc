@@ -25,7 +25,7 @@ from msg_scan import scan_msg, they_know_now, they_dont_know
 AUTHORS = "SAMDroid and Ignacio"
 
 HELP_TXT = "Hi! Why don't you check out this: " + \
-        "https://github.com/ignaciouy/sugar-irc/wiki/Resources-for-New-Devs"
+        "http://developer.sugarlabs.org/what-can-i-do.md.html"
 BOT_INFO_TXT = "Hi! I'm a bot by {authors} that's here to help. " + \
         "You can find my code here: https://github.com/ignaciouy/sugar-irc"
 # Just for pep8
