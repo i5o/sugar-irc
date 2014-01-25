@@ -64,7 +64,7 @@ class SugarIRCBOT(irc.IRCClient):
         nice_user = user.split('!')[0]
 
         if scan_msg(msg, nice_user):
-            self.msg(channel, nice_user + HELP_TXT)
+            self.msg(channel, nice_user + ': ' + HELP_TXT)
 
         if ('i know' in msg or 'no spam for me' in msg) and addressed:
             they_know_now(nice_user)
