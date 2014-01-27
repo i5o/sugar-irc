@@ -17,11 +17,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import json
 
-they_know = []
-if os.path.isfile('they_know.txt'):
-    with open('they_know.txt') as f:
-        they_know = f.read().split(',')
+data = {'they_know':[]}
+if os.path.isfile('data.json'):
+    with open('data.json') as f:
+       data = json.load(f)
 
 help_signs = [
     ("i'm", 'new'),
@@ -58,7 +59,7 @@ def scan_msg(msg, user):
     """
     Scan the message to see if the person needs help
     """
-    if user.lower() in they_know:
+    if user.lower() in data['they_know']:
         return False
 
     for i in help_signs:
@@ -66,20 +67,22 @@ def scan_msg(msg, user):
             return True
 
 
-def _save_they_know():
-    with open('they_know.txt', 'w') as f:
-        f.write(','.join(they_know))
+def _save_data():
+    with open('data.json', 'w') as f:
+        json.dump(data, f)
 
 
 def they_know_now(nick):
+    global data
     nick = nick.lower()
-    if not nick in they_know:
-        they_know.append(nick)
-        _save_they_know()
+    if not nick in data['they_know']:
+        data['they_know'].append(nick)
+        _save_data()
 
 
 def they_dont_know(nick):
+    global data
     nick = nick.lower()
-    if nick in they_know:
-        they_know.remove(nick)
-        _save_they_know()
+    if nick in data['they_know']:
+        data['they_know'].remove(nick)
+        _save_data()
