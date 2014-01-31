@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #    IRC Bot for help users in #sugar channels (Freenode)
 #    Copyright (C) 2014, Ignacio Rodríguez <ignacio@sugarlabs.org>
-#                        Sam Parkinson     <sam.parkinson3@gmail.com>
+#    Copyright (C) 2014, Sam Parkinson     <sam.parkinson3@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
 BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
 
+# The sugar channel bots, or ignored. Dont talk with him.
+IGNORED_BOTS = ["meeting", "soakbot", "gcibot"]
+
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
@@ -62,6 +65,16 @@ class SugarIRCBOT(irc.IRCClient):
         msg = msg.lower()
 
         nice_user = user.split('!')[0]
+
+        is_bot = False
+        for ignored in IGNORED_BOTS:
+            if ignored in nice_user:
+                # Just talking with bot :(
+                is_bot = True
+                break
+
+        if is_bot:
+            return
 
         if scan_msg(msg, nice_user):
             self.msg(channel, nice_user + ': ' + HELP_TXT)
