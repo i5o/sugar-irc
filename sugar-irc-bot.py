@@ -37,7 +37,7 @@ BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
 
 # The sugar channel bots, or ignored. Dont talk with him.
-IGNORED_BOTS = ["meeting", "soakbot", "gcibot"]
+IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github", "sbbot"]
 
 
 class SugarIRCBOT(irc.IRCClient):
@@ -73,7 +73,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         is_bot = False
         for ignored in IGNORED_BOTS:
-            if ignored in nice_user:
+            if ignored in nice_user.lower():
                 # Just talking with bot :(
                 is_bot = True
                 break
