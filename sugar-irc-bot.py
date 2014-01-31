@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import getpass
+
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
 
@@ -41,6 +43,9 @@ IGNORED_BOTS = ["meeting", "soakbot", "gcibot"]
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
     realname = "Sugar Labs help bot"
+    username = "sugarbot"
+    password = getpass.getpass("irc password: ")
+
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
