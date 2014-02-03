@@ -38,15 +38,16 @@ BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
 
 # The sugar channel bots, or ignored. Dont talk with him.
-IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github", "sbbot"]
+IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
+                "sbbot", "sugarbot-git"]
 
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
     realname = "Sugar Labs help bot"
     username = "sugarbot"
+    # Ask password (for sugarbot account) to Ignacio or Sam
     password = getpass.getpass("irc password: ")
-
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
@@ -90,7 +91,8 @@ class SugarIRCBOT(irc.IRCClient):
             self.msg(channel, 'I now count %s as smart' % nice_user)
             return
 
-        if 'spam me' in msg and addressed:
+        if ('spam me' in msg or "i don't know" in msg or
+            'i dont know' in msg) and addressed:
             they_dont_know(nice_user)
             self.msg(channel, nice_user + ": you will now be help spammed")
             return
