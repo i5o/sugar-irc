@@ -84,7 +84,7 @@ class SugarIRCBOT(irc.IRCClient):
             return
 
         if scan_msg(msg, nice_user):
-            self.msg(channel, nice_user + ': ' + HELP_TXT)
+            self.msg(channel, nice_user + ', ' + HELP_TXT)
 
         if ('i know' in msg or 'no spam for me' in msg) and addressed:
             they_know_now(nice_user)
@@ -94,7 +94,7 @@ class SugarIRCBOT(irc.IRCClient):
         if ('spam me' in msg or "i don't know" in msg or
             'i dont know' in msg) and addressed:
             they_dont_know(nice_user)
-            self.msg(channel, nice_user + ": you will now be help spammed")
+            self.msg(channel, nice_user + ", you will now be help spammed")
             return
 
         if 'help' in msg and addressed:
@@ -102,11 +102,11 @@ class SugarIRCBOT(irc.IRCClient):
             return
 
         if ('info' in msg or 'hi' in msg) and addressed:
-            self.msg(channel, nice_user + ": " + BOT_INFO_TXT)
+            self.msg(channel, nice_user + ", " + BOT_INFO_TXT)
             return
 
         if 'ping' in msg and addressed:
-            self.msg(channel, nice_user + ': pong')
+            self.msg(channel, nice_user + ', pong')
             return
 
         if 'freetime' in msg and addressed:
