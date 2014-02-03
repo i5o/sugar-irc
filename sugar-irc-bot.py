@@ -3,6 +3,7 @@
 #    IRC Bot for help users in #sugar channels (Freenode)
 #    Copyright (C) 2014, Ignacio Rodríguez <ignacio@sugarlabs.org>
 #    Copyright (C) 2014, Sam Parkinson     <sam.parkinson3@gmail.com>
+#    Copyright (C) 2014, Sai Vineet        <saivineet89@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
