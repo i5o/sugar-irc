@@ -126,5 +126,5 @@ class BotFactory(protocol.ClientFactory):
 
 if __name__ == '__main__':
     f = BotFactory()
-    reactor.connectTCP("irc.freenode.net", 6667, f)
+    reactor.connectTCP("rajaniemi.freenode.net", 6667, f)
     reactor.run()
