@@ -22,6 +22,7 @@ import os
 import getpass
 import signal
 import sys
+import re
 
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
@@ -41,6 +42,7 @@ BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
 BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
 
+UPDATE_RE = "\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed [0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*"
 
 # The sugar channel bots, or ignored. Dont talk with him.
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
@@ -85,7 +87,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         # Restart the bot if the user is sugarbot-git
         # We need to find a elegant way.
-        if "sugarbot-git" in nice_user:
+        if "sugarbot-git" in nice_user and re.match(UPDATE_RE, msg):
             program_path = os.path.dirname(os.path.abspath(__file__))
             justnow_path = os.getcwd()
             os.chdir(program_path)
