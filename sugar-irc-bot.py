@@ -70,7 +70,6 @@ class SugarIRCBOT(irc.IRCClient):
 
         msg.strip()
         msg = msg.lower()
-        print msg
 
         nice_user = user.split('!')[0]
 
