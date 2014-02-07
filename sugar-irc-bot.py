@@ -85,8 +85,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         # Restart the bot if the user is sugarbot-git
         # We need to find a elegant way.
-        if "sugarbot-git" in nice_user and "[sugar-irc] " in msg \
-            and "pushed" in msg and " to master" in msg:
+        if "sugarbot-git" in nice_user:
             program_path = os.path.dirname(os.path.abspath(__file__))
             justnow_path = os.getcwd()
             os.chdir(program_path)
