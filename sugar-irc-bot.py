@@ -39,6 +39,8 @@ BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
 
 BOT_HELP_TXT = ": Help is on my wiki: " + \
         "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
+BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
+
 
 # The sugar channel bots, or ignored. Dont talk with him.
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
@@ -123,6 +125,10 @@ class SugarIRCBOT(irc.IRCClient):
 
         if 'ping' in msg and addressed:
             self.msg(channel, nice_user + ', pong')
+            return
+
+        if 'version' in msg and addressed:
+            self.msg(channel, nice_user + ': ' + BOT_VERSION)
             return
 
         if 'freetime' in msg and addressed:
