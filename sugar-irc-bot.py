@@ -18,7 +18,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import getpass
+import signal
+import sys
 
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
@@ -47,7 +50,12 @@ class SugarIRCBOT(irc.IRCClient):
     realname = "Sugar Labs help bot"
     username = "sugarbot"
     # Ask password (for sugarbot account) to Ignacio or Sam
-    password = getpass.getpass("irc password: ")
+    # If password already exists: this use the first typed password.
+    # Btw: You can use: python sugar-irc-bot.py password
+    if len(sys.argv) == 1:
+        password = getpass.getpass("irc password: ")
+    else:
+        password = sys.argv[1]
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
@@ -73,7 +81,18 @@ class SugarIRCBOT(irc.IRCClient):
 
         nice_user = user.split('!')[0]
 
-        is_bot = False
+        # Restart the bot if the user is sugarbot-git
+        # We need to find a elegant way.
+        if nice_user == "sugarbot-git" and  \
+            (msg.startswith("[sugar-irc] ") and "pushed" in msg):
+            program_path = os.path.dirname(os.path.abspath(__file__))
+            justnow_path = os.getcwd()
+            os.chdir(program_path)
+            os.system("git pull")
+            os.chdir(justnow_path)
+            os.system("python %s %s &" % (__file__, self.password))
+            os.kill(os.getpid(), signal.SIGKILL)
+
         for ignored in IGNORED_BOTS:
             if ignored in nice_user.lower():
                 # Just talking with bot :(
