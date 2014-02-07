@@ -62,7 +62,6 @@ class SugarIRCBOT(irc.IRCClient):
         self.msg(channel, BOT_INFO_TXT)
 
     def privmsg(self, user, channel, msg):
-        print msg
         addressed = False
 
         if msg.startswith(self.nickname):
@@ -71,6 +70,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         msg.strip()
         msg = msg.lower()
+        print msg
 
         nice_user = user.split('!')[0]
 
