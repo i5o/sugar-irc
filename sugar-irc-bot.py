@@ -77,11 +77,7 @@ class SugarIRCBOT(irc.IRCClient):
         for ignored in IGNORED_BOTS:
             if ignored in nice_user.lower():
                 # Just talking with bot :(
-                is_bot = True
-                break
-
-        if is_bot:
-            return
+                return
 
         if scan_msg(msg, nice_user):
             self.msg(channel, nice_user + ', ' + HELP_TXT)
