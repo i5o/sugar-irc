@@ -1,4 +1,4 @@
-sugar-irc
+Sugar Labs IRC Help bot
 =========
 
 IRC Bot for #sugar channel
