@@ -115,6 +115,12 @@ class SugarIRCBOT(irc.IRCClient):
             self.msg(channel, nice_user + ", you will now be help spammed")
             return
 
+        re_result = re.search("([\S]{1,9999}) knows", msg)
+        if re_result and addressed:
+            they_know_now(re_result.groups()[0])
+            self.msg(channel, 'I now count %s as smart' % re_result.groups()[0])
+            return
+
         if 'help' in msg and addressed:
             self.msg(channel, nice_user + BOT_HELP_TXT)
             return
