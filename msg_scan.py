@@ -19,40 +19,22 @@
 import os
 import json
 
+from fuzzywuzzy import fuzz
+
 data = {'they_know':[]}
 if os.path.isfile('data.json'):
     with open('data.json') as f:
        data = json.load(f)
 
-help_signs = [
-    ("i'm", 'new'),
-    ('i', 'am', 'new'),
-    ('i', ('want', 'would'), 'to', ('help', 'contribute')),
-    ("i'd", 'like', 'to', ('help', 'contribute')),
-    ('i', 'wanna', ('help', 'contribute')),
-    ('how', 'can', 'i', ('start', 'going')),
-    (('can', 'could'), ('anyone', 'someone', 'somebody'), ('guide', 'help'))
-]
+help_signs = []
+if os.path.isfile('brain.txt'):
+    with open('brain.txt') as f:
+        line = f.readline()
+        while line:
+            help_signs.append(line.strip())
+            line = f.readline()
 
-MIN_SCORE = 0.8
-
-
-def get_help_sign_score(msg, sign):
-    """
-    Returns how sure the bot is that a the given sign is in the msg
-    Returns between 0 and 1
-    """
-    score = 0
-    for word in sign:
-        if isinstance(word, str):
-            if word in msg:
-                score += 1
-        else:
-            for x in word:
-                if x in msg:
-                    score += 1
-                    break
-    return float(score) / len(sign)
+MIN_SCORE = 95  # Out of 100
 
 
 def scan_msg(msg, user):
@@ -63,7 +45,7 @@ def scan_msg(msg, user):
         return False
 
     for i in help_signs:
-        if get_help_sign_score(msg, i) > MIN_SCORE:
+        if fuzz.partial_ratio(i, msg) > MIN_SCORE:
             return True
 
 
