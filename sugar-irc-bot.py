@@ -29,17 +29,19 @@ from twisted.words.protocols import irc
 
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
-AUTHORS = "Sam Parkinson, Sai Vinnet and Ignacio Rodriguez"
+AUTHORS = "Sam Parkinson, Sai Vineet, and Ignacio Rodriguez"
 
-HELP_TXT = "Hi! Why don't you check out this: " + \
-        "http://developer.sugarlabs.org/what-can-i-do.md.html"
-BOT_INFO_TXT = "Hi! I'm a bot by {authors} that's here to help. " + \
-        "You can find my code here: https://github.com/ignaciouy/sugar-irc"
-# Just for pep8
+HELP_TXT = ("Hi! Why don't you check out this: "
+            "http://developer.sugarlabs.org/what-can-i-do.md.html")
+
+BOT_INFO_TXT = ("Hi! I'm a bot by {authors} that's here to help. "
+                "You can find my code here: "
+                "https://github.com/ignaciouy/sugar-irc")
 BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
 
-BOT_HELP_TXT = ": Help is on my wiki: " + \
-        "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help"
+BOT_HELP_TXT = (": Help is on my wiki: " 
+               "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help")
+
 BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
 
 UPDATE_RE = "\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed [0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*"
@@ -77,7 +79,7 @@ class SugarIRCBOT(irc.IRCClient):
         addressed = False
 
         if msg.startswith(self.nickname):
-            msg = msg[len(self.nickname) + 1:]
+            msg = msg[len(self.nickname)+1:]
             addressed = True
 
         msg.strip()
