@@ -88,13 +88,8 @@ class SugarIRCBOT(irc.IRCClient):
         # Restart the bot if the user is sugarbot-git
         # We need to find a elegant way.
         if "sugarbot-git" in nice_user and re.match(UPDATE_RE, msg):
-            program_path = os.path.dirname(os.path.abspath(__file__))
-            justnow_path = os.getcwd()
-            os.chdir(program_path)
-            os.system("git pull")
-            os.chdir(justnow_path)
-            os.system("python %s %s &" % (__file__, self.password))
-            os.kill(os.getpid(), signal.SIGKILL)
+            self.msg(channel, 'I will update now')
+            reactor.stop()
 
         for ignored in IGNORED_BOTS:
             if ignored in nice_user.lower():
