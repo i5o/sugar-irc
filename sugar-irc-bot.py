@@ -14,7 +14,7 @@
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
-
+#
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -39,12 +39,13 @@ BOT_INFO_TXT = ("Hi! I'm a bot by {authors} that's here to help. "
                 "https://github.com/ignaciouy/sugar-irc")
 BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
 
-BOT_HELP_TXT = (": Help is on my wiki: " 
-               "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help")
+BOT_HELP_TXT = (": Help is on my wiki: "
+                "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help")
 
 BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
 
-UPDATE_RE = "\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed [0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*"
+UPDATE_RE = ("\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed "
+             "[0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*")
 
 # The sugar channel bots, or ignored. Dont talk with him.
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
@@ -106,8 +107,9 @@ class SugarIRCBOT(irc.IRCClient):
             self.msg(channel, 'I now count %s as smart' % nice_user)
             return
 
-        if ('spam me' in msg or "i don't know" in msg or
-            'i dont know' in msg) and addressed:
+        msg_match = ('spam me' in msg or 'i don\'t know' in msg or
+                     'i dont know' in msg)
+        if msg_match and addressed:
             they_dont_know(nice_user)
             self.msg(channel, nice_user + ", you will now be help spammed")
             return
@@ -115,7 +117,8 @@ class SugarIRCBOT(irc.IRCClient):
         re_result = re.search("([\S]{1,9999}) knows", msg)
         if re_result and addressed:
             they_know_now(re_result.groups()[0])
-            self.msg(channel, 'I now count %s as smart' % re_result.groups()[0])
+            self.msg(channel, 'I now count %s as smart' %
+                     re_result.groups()[0])
             return
 
         if 'help' in msg and addressed:
