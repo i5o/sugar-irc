@@ -29,7 +29,7 @@ from twisted.words.protocols import irc
 
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
-AUTHORS = "SAMdroid and Ignacio"
+AUTHORS = "Sam Parkinson, Sai Vinnet and Ignacio Rodriguez"
 
 HELP_TXT = "Hi! Why don't you check out this: " + \
         "http://developer.sugarlabs.org/what-can-i-do.md.html"
