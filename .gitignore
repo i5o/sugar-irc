@@ -1,6 +1,7 @@
 # Ignore data json file - otherwise names
 # and stuff would go on the git
 data.json
+password.txt
 
 *.py[cod]
 *~
