@@ -9,9 +9,7 @@ Running
 
 To run the bot you will need to first install the requirements:
 
-    # Fedora example - run as root
-    sudo yum install -y python-pip python-twisted
-    pip install -e git+git://github.com/seatgeek/fuzzywuzzy.git#egg=fuzzywuzzy
+    $ sudo pip install -r requirements.txt
 
 Then to run the bot:
 
