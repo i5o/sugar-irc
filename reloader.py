@@ -35,5 +35,6 @@ if __name__ == '__main__':
              cwd=ROOT_DIR)
 
     Popen(['python', 'sugar-irc-bot.py', PASSWORD], cwd=GIT_DIR)
+    app.debug = True
     app.run(host="elsalvador.treehouse.su", port=5002)
 
