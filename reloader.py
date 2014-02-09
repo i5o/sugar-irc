@@ -30,5 +30,5 @@ if __name__ == '__main__':
              cwd=ROOT_DIR)
 
     Popen(['python', 'sugar-irc-bot.py', PASSWORD], cwd=GIT_DIR)
-    app.run()
+    app.run(port=9123)
 
