@@ -23,6 +23,7 @@ import getpass
 import signal
 import sys
 import re
+from subprocess import call, Popen
 
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
@@ -47,22 +48,23 @@ BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
 UPDATE_RE = ("\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed "
              "[0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*")
 
-# The sugar channel bots, or ignored. Dont talk with him.
+# The sugar channel bots, or ignored. Don't talk with it
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
                 "sbbot", "sugarbot-git"]
+
+
+def reload_bot():
+    reactor.stop()
+    call(['git', 'pull'])
 
 
 class SugarIRCBOT(irc.IRCClient):
     nickname = "sugarbot"
     realname = "Sugar Labs help bot"
     username = "sugarbot"
-    # Ask password (for sugarbot account) to Ignacio or Sam
-    # If password already exists: this use the first typed password.
-    # Btw: You can use: python sugar-irc-bot.py password
-    if len(sys.argv) == 1:
-        password = getpass.getpass("irc password: ")
-    else:
-        password = sys.argv[1]
+
+    def __init__(self, p):
+        self.password = p
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
@@ -91,8 +93,7 @@ class SugarIRCBOT(irc.IRCClient):
         # Restart the bot if the user is sugarbot-git
         # We need to find a elegant way.
         if "sugarbot-git" in nice_user and re.match(UPDATE_RE, msg):
-            self.msg(channel, 'I will update now')
-            reactor.stop()
+            reload_bot()
 
         for ignored in IGNORED_BOTS:
             if ignored in nice_user.lower():
@@ -143,8 +144,11 @@ class SugarIRCBOT(irc.IRCClient):
 
 
 class BotFactory(protocol.ClientFactory):
+    def __init__(self, p):
+        self.password = p
+
     def buildProtocol(self, addr):
-        p = SugarIRCBOT()
+        p = SugarIRCBOT(self.password)
         p.factory = self
         return p
 
@@ -156,6 +160,17 @@ class BotFactory(protocol.ClientFactory):
 
 
 if __name__ == '__main__':
-    f = BotFactory()
+    # Ask password (for sugarbot account) to Ignacio or Sam
+    # If password already exists: this use the first typed password.
+    # Btw: You can use: python sugar-irc-bot.py password
+    if len(sys.argv) == 1:
+        password = getpass.getpass("irc password: ")
+    else:
+        password = sys.argv[1]
+
+    f = BotFactory(password)
     reactor.connectTCP("rajaniemi.freenode.net", 6667, f)
     reactor.run()
+
+    # This is called after reactor.stop()
+    call(['python', 'sugar-irc-bot.py', password])
