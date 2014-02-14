@@ -44,9 +44,6 @@ BOT_HELP_TXT = (": Help is on my wiki: "
 
 BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
 
-UPDATE_RE = ("\[sugar-irc\] [a-zA-Z0-9-`]{1,999} pushed "
-             "[0-9]{1,999} new commit[s]{0,1} to master: http://git.io/.*")
-
 # The sugar channel bots, or ignored. Don't talk with it
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
                 "sbbot", "sugarbot-git"]
@@ -91,7 +88,7 @@ class SugarIRCBOT(irc.IRCClient):
 
         # Restart the bot if the user is sugarbot-git
         # We need to find a elegant way.
-        if "sugarbot-git" in nice_user and re.match(UPDATE_RE, msg):
+        if "sugarbot-git" in nice_user and "pushed" in msg:
             reload_bot()
 
         for ignored in IGNORED_BOTS:
