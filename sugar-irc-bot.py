@@ -18,6 +18,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+print '\nSugarbot is loading\n'
+
 import os
 import getpass
 import signal
@@ -31,9 +33,6 @@ from twisted.words.protocols import irc
 from msg_scan import scan_msg, they_know_now, they_dont_know
 
 AUTHORS = "Sam Parkinson, Sai Vineet, and Ignacio Rodriguez"
-
-HELP_TXT = ("Hi! Why don't you check out this: "
-            "http://developer.sugarlabs.org/what-can-i-do.md.html")
 
 BOT_INFO_TXT = ("Hi! I'm a bot by {authors} that's here to help. "
                 "You can find my code here: "
@@ -100,8 +99,10 @@ class SugarIRCBOT(irc.IRCClient):
                 # Just talking with bot :(
                 return
 
-        if scan_msg(msg, nice_user):
-            self.msg(channel, nice_user + ', ' + HELP_TXT)
+        help_msg = scan_msg(msg, nice_user)
+        if help_msg:
+            self.msg(channel, nice_user + ', ' + help_msg)
+            return
 
         if ('i know' in msg or 'no spam for me' in msg) and addressed:
             they_know_now(nice_user)

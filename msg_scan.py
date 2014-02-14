@@ -26,13 +26,10 @@ if os.path.isfile('data.json'):
     with open('data.json') as f:
         data = json.load(f)
 
-help_signs = []
-if os.path.isfile('brain.txt'):
-    with open('brain.txt') as f:
-        line = f.readline()
-        while line:
-            help_signs.append(line.strip())
-            line = f.readline()
+brain = {'langs': []}
+if os.path.isfile('brain.json'):
+    with open('brain.json') as f:
+        brain = json.load(f)
 
 MIN_SCORE = 95  # Out of 100
 
@@ -44,9 +41,10 @@ def scan_msg(msg, user):
     if user.lower() in data['they_know']:
         return False
 
-    for i in help_signs:
-        if fuzz.partial_ratio(i, msg) > MIN_SCORE:
-            return True
+    for lang in brain['langs']:
+        for i in lang['signs']:
+            if fuzz.partial_ratio(str(i), msg) > MIN_SCORE:
+                return str(lang['out'])
 
 
 def _save_data():
