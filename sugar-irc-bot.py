@@ -25,6 +25,7 @@ import getpass
 import signal
 import sys
 import re
+from datetime import datetime
 from subprocess import call, Popen
 
 from twisted.internet import reactor, protocol
@@ -42,7 +43,7 @@ BOT_INFO_TXT = BOT_INFO_TXT.format(authors=AUTHORS)
 BOT_HELP_TXT = (": Help is on my wiki: "
                 "https://github.com/ignaciouy/sugar-irc/wiki/SugarBot-Help")
 
-BOT_VERSION = "7:51 PM, Friday, February 7, 2014 (UTC)"
+BOT_VERSION = "Started at " + str(datetime.now())
 
 # The sugar channel bots, or ignored. Don't talk with it
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
