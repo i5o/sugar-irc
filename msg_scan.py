@@ -42,6 +42,7 @@ def scan_msg(msg, user):
     Scan the message to see if the person needs help
     """
     if sent_count.get(user, 0) == 1:
+        sent_count[user] = sent_count.get(user, 0) + 1
         return SPAM_HELP_TEXT
 
     if user.lower() in data['they_know']:
