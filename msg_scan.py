@@ -32,18 +32,25 @@ if os.path.isfile('brain.json'):
         brain = json.load(f)
 
 MIN_SCORE = 95  # Out of 100
+sent_count = {}
 
+SPAM_HELP_TEXT = ("Am I spaming you? If so please type "
+                  " 'sugarbot: i know' and I won't spam you")
 
 def scan_msg(msg, user):
     """
     Scan the message to see if the person needs help
     """
+    if sent_count.get(user, 0) == 1:
+        return SPAM_HELP_TEXT
+
     if user.lower() in data['they_know']:
         return False
 
     for lang in brain['langs']:
         for i in lang['signs']:
             if fuzz.partial_ratio(str(i), msg) > MIN_SCORE:
+                sent_count[user] = sent_count.get(user, 0) + 1
                 return str(lang['out'])
 
 
