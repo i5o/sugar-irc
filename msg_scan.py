@@ -41,9 +41,6 @@ def scan_msg(msg, user):
     """
     Scan the message to see if the person needs help
     """
-    if sent_count.get(user, 0) == 1:
-        sent_count[user] = sent_count.get(user, 0) + 1
-        return SPAM_HELP_TEXT
 
     if user.lower() in data['they_know']:
         return False
@@ -52,6 +49,8 @@ def scan_msg(msg, user):
         for i in lang['signs']:
             if fuzz.partial_ratio(str(i), msg) > MIN_SCORE:
                 sent_count[user] = sent_count.get(user, 0) + 1
+                if sent_count.get(user, 0) == 2:
+                    return str(lang['out']) + ' | ' + SPAM_HELP_TEXT
                 return str(lang['out'])
 
 
