@@ -45,9 +45,9 @@ BOT_HELP_TXT = (": Help is on my wiki: "
 
 BOT_VERSION = "Started at " + str(datetime.now())
 
-# The sugar channel bots, or ignored. Don't talk with it
+# The sugar channel bots, or ignored, or me! Don't talk with it
 IGNORED_BOTS = ["meeting", "soakbot", "gcibot", "github",
-                "sbbot", "sugarbot-git"]
+                "sbbot", "sugarbot-git", "sugarbot"]
 
 
 def reload_bot():
@@ -97,9 +97,10 @@ class SugarIRCBOT(irc.IRCClient):
                 # Just talking with bot :(
                 return
 
-        help_msg = scan_msg(msg, nice_user)
-        if help_msg:
-            self.msg(channel, nice_user + ', ' + help_msg)
+        help_msgs = scan_msg(msg, nice_user)
+        if help_msgs:
+            for help_msg in help_msgs:
+                self.msg(channel, nice_user + ', ' + str(help_msg))
             return
 
         if ('i know' in msg or 'no spam for me' in msg) and addressed:

@@ -10,7 +10,7 @@
             "how can i help",
             "can someone get me started"
          ],
-         "out":"Hi! Why don't you check out this: http://developer.sugarlabs.org/what-can-i-do.md.html"
+         "out": ["Hi! Why don't you check out this: http://developer.sugarlabs.org/what-can-i-do.md.html"]
         },
         {"name":"Summer of Code",
          "signs":[
@@ -19,7 +19,8 @@
             "gsoc 2014",
             "participate this year in gsoc"
          ],
-         "out": "Hi! We have applied to GSoC 2014. Please check out http://wiki.sugarlabs.org/go/Summer_of_Code"
+         "out": ["Hi! We have applied to GSoC 2014.",
+                 "Please check out http://wiki.sugarlabs.org/go/Summer_of_Code"]
         }
     ]
 }

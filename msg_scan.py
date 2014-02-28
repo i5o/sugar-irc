@@ -36,6 +36,7 @@ sent_count = {}
 
 SPAM_HELP_TEXT = ("Am I spaming you? If so please type "
                   " 'sugarbot: i know' and I won't spam you")
+SEND_SPAM_HELP = 2
 
 def scan_msg(msg, user):
     """
@@ -49,9 +50,9 @@ def scan_msg(msg, user):
         for i in lang['signs']:
             if fuzz.partial_ratio(str(i), msg) > MIN_SCORE:
                 sent_count[user] = sent_count.get(user, 0) + 1
-                if sent_count.get(user, 0) == 2:
-                    return str(lang['out']) + ' | ' + SPAM_HELP_TEXT
-                return str(lang['out'])
+                if sent_count.get(user, 0) >= SEND_SPAM_HELP:
+                    return lang['out'] + [SPAM_HELP_TEXT]
+                return lang['out']
 
 
 def _save_data():
