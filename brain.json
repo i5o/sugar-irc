@@ -16,10 +16,10 @@
          "signs":[
             "i want to know more about gsoc",
             "applying for gsoc?",
-            "gsoc 2014",
+            "gsoc 2015",
             "participate this year in gsoc"
          ],
-         "out": ["Hi! We have applied to GSoC 2014.",
+         "out": ["Hi! We have applied to GSoC 2015.",
                  "Please check out http://wiki.sugarlabs.org/go/Summer_of_Code"]
         }
     ]
